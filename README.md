@@ -54,7 +54,8 @@ The application will launch in fullscreen. Use the following keys to change expr
 - `8` - Broken
 - `ESC` - Quit
 
-Expressions display while the key is held down and return to neutral when released. There is a 200ms delay between expression changes to prevent glitchy visuals.
+Expressions display while the key is held down and return to neutral when released.  
+There is a 200ms delay between expression changes to prevent glitchy visuals.
 
 ### Creating Custom Expressions
 
