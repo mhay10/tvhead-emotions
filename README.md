@@ -59,6 +59,13 @@ There is a 200ms delay between expression changes to prevent glitchy visuals.
 
 ### Creating Custom Expressions
 
+Use the `setup_predefined_expressions` scripts to generate predefined expressions:
+
+```bash
+$ setup_predefined_expressions.sh   # For Linux/MacOS
+> setup_predefined_expressions.bat  # For Windows
+```
+
 Use the `create_expression.py` script to generate new expressions by combining eye images:
 
 ```bash
