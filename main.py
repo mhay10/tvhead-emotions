@@ -13,8 +13,6 @@ class App:
     def __init__(self):
         self._init_pygame()
         self._init_app_vars()
-        self._init_expressions()
-        self._init_keyboard()
 
     def _init_pygame(self):
         # Create window
@@ -24,6 +22,7 @@ class App:
         self.screen = pygame.display.set_mode(
             (self.screen_width, self.screen_height), flags=pygame.FULLSCREEN
         )
+        print(f"Screen size: {self.screen_width}x{self.screen_height}")
 
         # Create clock
         self.clock = pygame.time.Clock()
@@ -32,16 +31,9 @@ class App:
         self.done = False
         self.expression_name = DEFAULT_EXPRESSION
         self.current_expression_key = None
-
-    def _init_expressions(self):
-        # Create surface for expressions with biggest 3x2 dimensions
-        self.expr_width, self.expr_height = get_closest_dimensions(
-            self.screen_width, self.screen_height, (3, 2)
+        self.max_expression_dims = get_closest_dimensions(
+            self.screen_height, self.screen_height, EXPRESSION_ASPECT_RATIO
         )
-        self.expression = pygame.Surface((self.expr_width, self.expr_height))
-
-    def _init_keyboard(self):
-        pass
 
     """ APP HELPER FUNCTIONS """
 
@@ -77,21 +69,18 @@ class App:
                     pygame.time.delay(EXPRESSION_SWITCH_DELAY)
 
     def draw_expression(self):
-        # Load expression image
+        # Load expression image and scale to fit screen
         self.expression_img = pygame.image.load(
             os.path.join(EXPRESSION_FILE_PATH, f"{self.expression_name}.png")
         )
-
-        # Put image on expression surface
-        self.expression.blit(
-            pygame.transform.scale(
-                self.expression_img, (self.expr_width, self.expr_height)
-            ),
-            (0, 0),
+        self.expression_img = pygame.transform.scale(
+            self.expression_img, self.max_expression_dims
         )
 
-        # Put expression surface on screen
-        self.screen.blit(self.expression, center_surface(self.screen, self.expression))
+        # Put expression on screen
+        self.screen.blit(
+            self.expression_img, center_surface(self.screen, self.expression_img)
+        )
 
     """ MAIN APP LOOP """
 
@@ -105,7 +94,7 @@ class App:
             self.draw_expression()
 
             # Update display
-            pygame.display.update()
+            pygame.display.flip()
             self.clock.tick(FPS)
 
 
