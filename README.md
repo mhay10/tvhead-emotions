@@ -56,37 +56,3 @@ The application will launch in fullscreen. Use the following keys to change expr
 
 Expressions display while the key is held down and return to neutral when released.  
 There is a 200ms delay between expression changes to prevent glitchy visuals.
-
-### Creating Custom Expressions
-
-Use the `setup_predefined_expressions` scripts to generate predefined expressions:
-
-```bash
-$ setup_predefined_expressions.sh   # For Linux/MacOS
-> setup_predefined_expressions.bat  # For Windows
-```
-
-Use the `create_expression.py` script to generate new expressions by combining eye images:
-
-```bash
-python create_expression.py <left_eye> <right_eye> <expression_name>
-```
-
-**Example:**
-
-```bash
-python create_expression.py angry-left angry-right angry
-```
-
-This will:
-
-1. Load the left eye image from `eyes/angry-left.png`
-2. Load the right eye image from `eyes/angry-right.png`
-3. Combine them into a single expression
-4. Save the result as `expressions/angry.png`
-
-**Notes:**
-
-- Custom eye images should be 16x16 PNG files placed in the `eyes/` folder
-- Generated expressions are saved to the `expressions/` folder
-- Expression dimensions: 110x73 pixels
