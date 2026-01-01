@@ -51,7 +51,7 @@ The application will launch in fullscreen. Use the following keys to change expr
 - `5` - Tired
 - `6` - Skeptical
 - `7` - Love
-- `8` - Broken
+- `8` - Confused
 - `ESC` - Quit
 
 Expressions display while the key is held down and return to neutral when released.  

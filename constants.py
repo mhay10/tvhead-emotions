@@ -18,7 +18,7 @@ EXPRESSION_KEYMAP = {
     pygame.K_5: "tired",
     pygame.K_6: "skeptical",
     pygame.K_7: "love",
-    pygame.K_8: "broken",
+    pygame.K_8: "confused",
 }
 
 # Colors
