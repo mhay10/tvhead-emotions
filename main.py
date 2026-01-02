@@ -3,9 +3,6 @@ from utils import *
 import pygame
 import os
 
-# Initialize Pygame
-pygame.init()
-
 
 class App:
     """INITIALIZATION FUNCTIONS"""
@@ -23,7 +20,6 @@ class App:
         self.screen = pygame.display.set_mode(
             (self.screen_width, self.screen_height), flags=pygame.FULLSCREEN
         )
-        print(f"Screen size: {self.screen_width}x{self.screen_height}\n")
 
         # Create clock
         self.clock = pygame.time.Clock()
@@ -120,6 +116,11 @@ class App:
 
 
 if __name__ == "__main__":
+    # Initialize Pygame
+    pygame.init()
+    print()
+
+    # Run the app
     app = App()
     app.run()
     pygame.quit()
