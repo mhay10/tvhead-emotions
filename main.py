@@ -11,6 +11,7 @@ class App:
     """INITIALIZATION FUNCTIONS"""
 
     def __init__(self):
+        self._check_expression_images()
         self._init_pygame()
         self._init_app_vars()
 
@@ -22,7 +23,7 @@ class App:
         self.screen = pygame.display.set_mode(
             (self.screen_width, self.screen_height), flags=pygame.FULLSCREEN
         )
-        print(f"Screen size: {self.screen_width}x{self.screen_height}")
+        print(f"Screen size: {self.screen_width}x{self.screen_height}\n")
 
         # Create clock
         self.clock = pygame.time.Clock()
@@ -34,6 +35,26 @@ class App:
         self.max_expression_dims = get_closest_dimensions(
             self.screen_height, self.screen_height, EXPRESSION_ASPECT_RATIO
         )
+
+    def _check_expression_images(self):
+        # Verify expression images exist
+        all_exist = True
+        for expression in [*EXPRESSION_KEYMAP.values(), DEFAULT_EXPRESSION]:
+            # Check if each image file exists
+            img_path = os.path.join(EXPRESSION_FILE_PATH, f"{expression}.png")
+            if not os.path.exists(img_path):
+                # Log missing expression image
+                all_exist = False
+                print(f"Error: Expression '{expression}' not found at '{img_path}'")
+
+        # Exit if any images are missing
+        if not all_exist:
+            print(
+                f"\nPlease ensure all expression images are in: {EXPRESSION_FILE_PATH}"
+            )
+            exit(1)
+        else:
+            print("All expression images found!\n")
 
     """ APP HELPER FUNCTIONS """
 
