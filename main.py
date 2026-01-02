@@ -54,7 +54,7 @@ class App:
                 elif event.key in EXPRESSION_KEYMAP:
                     self.expression_name = EXPRESSION_KEYMAP[event.key]
                     self.current_expression_key = event.key
-                    print(f"Expression change to: {self.expression_name}")
+                    print(f"Expression changed to: {self.expression_name}")
 
             # Handle keyup event
             elif event.type == pygame.KEYUP:
