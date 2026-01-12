@@ -52,7 +52,8 @@ The application will launch in fullscreen. Use the following keys to change expr
 - `6` - Skeptical
 - `7` - Love
 - `8` - Confused
-- `ESC` - Quit
+- `ESC` - Quit Program
 
 Expressions display while the key is held down and return to neutral when released.  
+
 There is a 200ms delay between expression changes to prevent glitchy visuals.
