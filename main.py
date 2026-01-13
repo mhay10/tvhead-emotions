@@ -1,5 +1,7 @@
+from apiserver import APIServer
 from constants import *
 from utils import *
+import argparse
 import pygame
 import os
 
@@ -7,30 +9,11 @@ import os
 class App:
     """INITIALIZATION FUNCTIONS"""
 
-    def __init__(self):
+    def __init__(self, windowed=False):
         self._check_expression_images()
-        self._init_pygame()
+        self._init_pygame(windowed)
         self._init_app_vars()
-
-    def _init_pygame(self):
-        # Create window
-        display_info = pygame.display.Info()
-        self.screen_width = display_info.current_w
-        self.screen_height = display_info.current_h
-        self.screen = pygame.display.set_mode(
-            (self.screen_width, self.screen_height), flags=pygame.FULLSCREEN
-        )
-
-        # Create clock
-        self.clock = pygame.time.Clock()
-
-    def _init_app_vars(self):
-        self.done = False
-        self.expression_name = DEFAULT_EXPRESSION
-        self.current_expression_key = None
-        self.max_expression_dims = get_closest_dimensions(
-            self.screen_height, self.screen_height, EXPRESSION_ASPECT_RATIO
-        )
+        self._init_apiserver()
 
     def _check_expression_images(self):
         # Verify expression images exist
@@ -50,9 +33,47 @@ class App:
             )
             exit(1)
         else:
-            print("All expression images found!\n")
+            print("All expression images found!")
+
+    def _init_pygame(self, windowed):
+        # Set window mode
+        print("Fullscreen mode:", not windowed)
+        if windowed:
+            flags = 0
+        else:
+            flags = pygame.FULLSCREEN
+
+        # Create window
+        display_info = pygame.display.Info()
+        self.screen_width = display_info.current_w
+        self.screen_height = display_info.current_h
+        self.screen = pygame.display.set_mode(
+            (self.screen_width, self.screen_height), flags=flags
+        )
+
+        # Create clock
+        self.clock = pygame.time.Clock()
+
+    def _init_app_vars(self):
+        self.done = False
+        self.expression_name = DEFAULT_EXPRESSION
+        self.current_expression_key = None
+        self.max_expression_dims = get_closest_dimensions(
+            self.screen_height, self.screen_height, EXPRESSION_ASPECT_RATIO
+        )
+
+    def _init_apiserver(self):
+        # Start API server
+        self.apiserver = APIServer(callback=self.apiserver_callback)
+        self.apiserver.start()
 
     """ APP HELPER FUNCTIONS """
+
+    def apiserver_callback(self, expression_name):
+        # Update expression from apiserver
+        self.expression_name = expression_name
+        self.current_expression_key = None
+        print(f"APIServer set expression to '{expression_name}'")
 
     def handle_events(self):
         # Handle Pygame events
@@ -120,7 +141,17 @@ if __name__ == "__main__":
     pygame.init()
     print()
 
+    # Parse command line args
+    parser = argparse.ArgumentParser(description="TVHead Emotions Application")
+    parser.add_argument(
+        "--windowed",
+        action="store_true",
+        help="Run the app in windowed mode",
+        default=False,
+    )
+    args = parser.parse_args()
+
     # Run the app
-    app = App()
+    app = App(args.windowed)
     app.run()
     pygame.quit()

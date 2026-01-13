@@ -21,5 +21,10 @@ EXPRESSION_KEYMAP = {
     pygame.K_8: "confused",
 }
 
+# Webserver Contants
+WEBSERVER_HOST = "0.0.0.0"
+WEBSERVER_PORT = 5000
+WEBSERVER_API_USAGE_HTML = "./api_usage.html"
+
 # Colors
 BLACK = (0, 0, 0)
