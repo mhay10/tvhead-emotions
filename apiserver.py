@@ -16,7 +16,7 @@ class APIServer:
         self.callback = callback
 
     def verify_expression(self, request):
-        # Verify expression from request
+        # Verify data from request
         data = request.get_json(force=True, silent=True)
         if not data:
             return False, "Invalid request: No JSON data found", 400
