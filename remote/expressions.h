@@ -1,9 +1,6 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiClient.h>
 
-// Macros
-#define STRINGIFY(...) #__VA_ARGS__
-
 // Expressions
 #define NEUTRAL "neutral"
 #define HAPPY "happy"
