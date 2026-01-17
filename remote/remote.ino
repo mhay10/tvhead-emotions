@@ -21,14 +21,17 @@ WiFiClient client;
 // Button pins
 const int numButtons = 4;
 ButtonMap buttons[numButtons] = {
-  { D1, HAPPY },
-  { D2, SAD },
-  { D5, ANGRY },
-  { D6, SURPRISED },
+  { D1, IS_RIGHT_HAND ? HAPPY : TIRED },
+  { D2, IS_RIGHT_HAND ? SAD : SKEPTICAL },
+  { D5, IS_RIGHT_HAND ? ANGRY : LOVE },
+  { D6, IS_RIGHT_HAND ? SURPRISED : CONFUSED },
 };
 
-// Status LED
+// Status LED pin
 const int statusLed = D0;
+
+// States for button presses
+int prevButtonPress = -1;
 
 void setup() {
   // Setup pins
@@ -46,24 +49,36 @@ void setup() {
 }
 
 void loop() {
+  // Handle button presses
   for (int i = 0; i < numButtons; i++) {
     ButtonMap button = buttons[i];
-    if (digitalRead(button.pin) == 0) {
+    if (digitalRead(button.pin) == 0 && button.pin != prevButtonPress) {
+      // Only send request when button first pressed
       API_setExpression(client, button.expression);
-      delay(200);
+      prevButtonPress = button.pin;
+    }
+  }
+
+  // Handle button releases
+  for (int i = 0; i < numButtons; i++) {
+    ButtonMap button = buttons[i];
+    if (digitalRead(button.pin) == 1 && button.pin == prevButtonPress) {
+      // Only send request when button released
+      API_resetExpression(client);
+      prevButtonPress = -1;
     }
   }
 }
 
 void showConnectingStatus() {
   digitalWrite(statusLed, 0);
-  delay(250);
+  delay(500);
   digitalWrite(statusLed, 1);
-  delay(250);
+  delay(500);
 }
 
 void showConnectedStatus() {
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 3; i++) {
     digitalWrite(statusLed, 0);
     delay(100);
     digitalWrite(statusLed, 1);
